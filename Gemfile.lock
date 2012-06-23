@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    mock_factory (0.0.2)
+    mock_factory (0.0.3)
       rails
       rspec
       rspec-rails
