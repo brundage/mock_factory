@@ -4,18 +4,18 @@ require 'rspec/rails/mocks'
 
 class MockFactory
 
-  VERSION = '0.0.4'
+  VERSION = '0.0.5'
 
   class << self
     include RSpec::Rails::Mocks
 
-    def create(const, &block)
-      mock_it 'create', const, &block
+    def fetch(const, &block)
+      mock_it 'fetch', const, &block
     end
 
 
-    def fetch(const, &block)
-      mock_it 'fetch', const, &block
+    def produce(const, &block)
+      mock_it 'produce', const, &block
     end
 
   private

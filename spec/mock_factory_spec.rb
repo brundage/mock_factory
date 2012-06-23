@@ -3,23 +3,23 @@ require 'mock_factory'
 
 describe MockFactory do
 
-  it "create makes a mock object" do
-    o = MockFactory.create 'Blark'
+  it "produce makes a mock object" do
+    o = MockFactory.produce 'Blark'
     o.should be_a(Blark)
   end
 
 
-  it "create applies a block to the mock" do
-    b = MockFactory.create 'Badger' do |b|
+  it "produce applies a block to the mock" do
+    b = MockFactory.produce 'Badger' do |b|
           b.stub(:honey).and_return(true)
         end
     b.honey.should be_true
   end
 
 
-  it "create makes a different object" do
-    stout = MockFactory.create 'Beer'
-    ipa = MockFactory.create 'Beer'
+  it "produce makes a different object" do
+    stout = MockFactory.produce 'Beer'
+    ipa = MockFactory.produce 'Beer'
     stout.should_not === ipa
   end
 
