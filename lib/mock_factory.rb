@@ -10,12 +10,12 @@ class MockFactory
     include RSpec::Rails::Mocks
 
     def fetch(const, &block)
-      mock_it 'fetch', const, &block
+      mock_it :fetch, const, &block
     end
 
 
     def produce(const, &block)
-      mock_it 'produce', const, &block
+      mock_it :produce, const, &block
     end
 
   private
@@ -24,7 +24,7 @@ class MockFactory
       setup
       name = const.is_a?(String) ? const : const.name
 
-      mock_object = if action == 'fetch'
+      mock_object = if action == :fetch
                       @mocks[name] ||= mock_model name
                     else
                       mock_model name
