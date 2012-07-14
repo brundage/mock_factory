@@ -1,5 +1,6 @@
-mock_factory
-============
+# mock_factory
+
+## Like Mocks? Like Factories? How about a factory for your mocks?!?
 
 [![Build Status](https://secure.travis-ci.org/brundage/mock_factory.png)](http://travis-ci.org/brundage/mock_factory)
 [![Dependency Status](https://gemnasium.com/brundage/mock_factory.png)](https://gemnasium.com/brundage/mock_factory)
