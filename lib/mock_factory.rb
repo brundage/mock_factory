@@ -4,7 +4,7 @@ require 'rspec/rails/mocks'
 
 class MockFactory
 
-  VERSION = '0.0.6'
+  VERSION = '0.0.7'
 
   class << self
     include RSpec::Rails::Mocks
@@ -20,18 +20,31 @@ class MockFactory
 
   private
 
+    def fetch_it(name)
+      unless @mocks.has_key?(name)
+        @mocks[name] = produce_it(name)
+      end
+      @mocks[name]
+    end
+
+
     def mock_it(action, const, &block)
       setup
       name = const.is_a?(String) ? const : const.name
 
       mock_object = if action == :fetch
-                      @mocks[name] ||= mock_model name
+                      fetch_it name
                     else
-                      mock_model name
+                      produce_it name
                     end
 
       block.call(mock_object) if block
       mock_object
+    end
+
+
+    def produce_it(name)
+      mock_model name
     end
 
 
