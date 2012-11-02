@@ -3,45 +3,86 @@ require 'mock_factory'
 
 describe MockFactory do
 
-  it "produce makes a mock object" do
-    o = MockFactory.produce 'Blark'
-    o.should be_a(Blark)
+  shared_examples_for 'making an object' do
+
+    it 'makes a mock object' do
+      object.should be_a(klass)
+    end
+
+    it 'applies a block to the mock' do
+      object.should respond_to(method_name)
+    end
+
   end
 
 
-  it "produce applies a block to the mock" do
-    b = MockFactory.produce 'Badger' do |b|
-          b.stub(:honey).and_return(true)
-        end
-    b.honey.should be_true
+  let(:klass)  { klass_name.constantize }
+
+  let(:klass_name)  { 'Blark' }
+
+  let(:method_name) { :blark }
+
+  context 'producing' do
+    let(:object) { MockFactory.produce klass_name do |b|
+                     b.stub(method_name)
+                   end
+                 }
+
+    let(:ipa) { MockFactory.produce 'Beer' }
+    let(:stout) { MockFactory.produce 'Beer' }
+
+    it_behaves_like 'making an object'
+
+    it "produce makes a different object" do
+      stout.should_not === ipa
+    end
+
   end
 
 
-  it "produce makes a different object" do
-    stout = MockFactory.produce 'Beer'
-    ipa = MockFactory.produce 'Beer'
-    stout.should_not === ipa
+  context 'fetching' do
+
+    let(:object) { MockFactory.fetch klass_name do |b|
+                     b.stub(method_name)
+                   end
+                 }
+
+    let(:ipa) { MockFactory.fetch 'Beer' }
+    let(:stout) { MockFactory.fetch 'Beer' }
+
+    it_behaves_like 'making an object'
+
+    it "fetch makes the same object" do
+      stout.should === ipa
+    end
+
   end
 
 
-  it "fetch makes a mock object" do
-    o = MockFactory.fetch 'Blark'
-    o.should be_a(Blark)
-  end
+  context 'stubs' do
 
+    let(:ipa) { MockFactory.fetch 'Beer' do |b|
+                  b.stub(:llama).and_return(bill)
+                end
+              }
+    let(:bill) { MockFactory.fetch 'Llama' do |l|
+                   l.stub(:spit).and_return("pitooey")
+                 end
+               }
 
-  it "fetch applies a block to the mock" do
-    b = MockFactory.fetch 'Badger' do |b|
-          b.stub(:honey).and_return(true)
-        end
-    b.honey.should be_true
-  end
+    it 'does not lose its id by stubbing' do
+      bill.should respond_to(:spit)
+      bill.id.should_not be_nil
+    end
 
+    it 'does not lose its id when re-applying a block' do
+      bill.id.should_not be_nil
+    end
 
-  it "fetch makes the same object" do
-    stout = MockFactory.fetch 'Beer'
-    ipa = MockFactory.fetch 'Beer'
-    stout.should === ipa
+    it 'blocka blocka blocka!' do
+      ipa.llama.should === bill
+    end
+
   end
 
 end

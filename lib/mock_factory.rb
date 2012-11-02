@@ -20,9 +20,9 @@ class MockFactory
 
   private
 
-    def fetch_it(name)
+    def fecth_mock(name)
       unless @mocks.has_key?(name)
-        @mocks[name] = produce_it(name)
+        @mocks[name] = produce_mock(name)
       end
       @mocks[name]
     end
@@ -31,19 +31,13 @@ class MockFactory
     def mock_it(action, const, &block)
       setup
       name = const.is_a?(String) ? const : const.name
-
-      mock_object = if action == :fetch
-                      fetch_it name
-                    else
-                      produce_it name
-                    end
-
+      mock_object = action == :fetch ? fecth_mock(name) : produce_mock(name)
       block.call(mock_object) if block
       mock_object
     end
 
 
-    def produce_it(name)
+    def produce_mock(name)
       mock_model name
     end
 
@@ -52,7 +46,6 @@ class MockFactory
       @mocks ||= {}
       @space ||= RSpec::Mocks::setup(self)
     end
-
 
   end
 
