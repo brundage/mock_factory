@@ -4,6 +4,8 @@
 
 [![Build Status](https://secure.travis-ci.org/brundage/mock_factory.png)](http://travis-ci.org/brundage/mock_factory)
 [![Dependency Status](https://gemnasium.com/brundage/mock_factory.png)](https://gemnasium.com/brundage/mock_factory)
+[![Buggerall](https://buggerall.herokuapp.com/bug/mock_factory.png)](https://github.com/brundage/buggerall)
+
 
 Produces [RSpec-Rails](https://github.com/rspec/rspec-rails/#readme) Mocks
 
